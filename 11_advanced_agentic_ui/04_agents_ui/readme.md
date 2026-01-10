@@ -1,1 +1,1 @@
-https://docs.agno.com/agent-ui/introduction
+https://docs.agno.com/introduction
