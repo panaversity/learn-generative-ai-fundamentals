@@ -101,6 +101,58 @@ For a true test, I’d throw a challenging prompt at them—like designing a mul
 
 ---
 
+## Astraflow: A Cost-Efficient Multi-Model Aggregation Platform
+
+[Astraflow](https://astraflow.ucloud-global.com) by **UCloud (优刻得)** is an OpenAI-compatible AI model aggregation platform that gives you access to **200+ models** (GPT-4o, Claude, Gemini, DeepSeek, Llama, Mistral, and more) through a single API key. Because it is fully OpenAI-compatible, you can use it with the OpenAI Agents SDK, LangChain, and any other OpenAI-compatible library without changing a single line of SDK code — only `base_url` and `api_key` differ.
+
+### Key Facts
+
+| Property | Global | China |
+|---|---|---|
+| **Endpoint** | `https://api-us-ca.umodelverse.ai/v1` | `https://api.modelverse.cn/v1` |
+| **Env var** | `ASTRAFLOW_API_KEY` | `ASTRAFLOW_CN_API_KEY` |
+| **Website** | https://astraflow.ucloud-global.com | https://astraflow.ucloud.cn |
+| **API key signup** | https://astraflow.ucloud-global.com | https://astraflow.ucloud.cn |
+
+### Why Consider Astraflow for Agentic AI?
+
+- **200+ models via one API key**: Instantly switch between OpenAI, Anthropic, Google, DeepSeek, and open-source models without managing multiple API keys or billing accounts.
+- **OpenAI-compatible**: The exact same `AsyncOpenAI(base_url=..., api_key=...)` pattern used in this repo works out of the box.
+- **Cost efficiency**: As an aggregator, Astraflow often provides competitive pricing — a great fit for students and startups with limited budgets (aligned with the DACA design pattern's goal of minimising costs during training).
+- **Ideal for multi-agent systems**: Different agents in a DACA pipeline can use different best-fit models (e.g., GPT-4o for reasoning, DeepSeek-R1 for STEM, Gemini Flash for speed) — all through a single Astraflow account.
+
+### Quick Start (OpenAI Agents SDK)
+
+```python
+import os
+from openai import AsyncOpenAI
+from agents import Agent, OpenAIChatCompletionsModel, Runner, set_tracing_disabled
+
+# Global endpoint — set ASTRAFLOW_API_KEY in your .env
+astraflow_client = AsyncOpenAI(
+    api_key=os.environ["ASTRAFLOW_API_KEY"],
+    base_url="https://api-us-ca.umodelverse.ai/v1",
+)
+
+set_tracing_disabled(disabled=True)
+
+agent = Agent(
+    name="AstraflowAssistant",
+    instructions="You are a helpful assistant powered by Astraflow.",
+    model=OpenAIChatCompletionsModel(
+        model="gpt-4o",          # swap for any of 200+ supported models
+        openai_client=astraflow_client,
+    ),
+)
+
+result = Runner.run_sync(agent, "Explain the DACA design pattern in one paragraph.")
+print(result.final_output)
+```
+
+> **Sign up**: https://astraflow.ucloud-global.com (global) | https://astraflow.ucloud.cn (China)
+
+---
+
 ## Is my selection of Google Flash correct?")
 
 ---
